@@ -45,7 +45,7 @@ function App() {
         </nav>
 
         {/* Hero Section */}
-        <main className="flex-1 flex flex-col items-center justify-center text-center px-6">
+        <main className="flex-1 flex flex-col items-center justify-center text-center px-6 pb-48 md:pb-0">
           <h1
             className="animate-fade-rise text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground"
             style={{ fontFamily: "'Instrument Serif', serif" }}
