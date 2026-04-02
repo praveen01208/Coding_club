@@ -16,15 +16,15 @@ function App() {
 
       {/* Main Content Wrapper */}
       <div className="relative z-10 flex flex-col min-h-screen">
-        
+
         {/* Navigation Bar */}
         <nav className="flex flex-wrap md:flex-nowrap items-center justify-between px-6 sm:px-8 py-6 max-w-7xl w-full mx-auto gap-y-4">
           {/* Logo */}
-          <div 
+          <div
             className="text-3xl tracking-tight text-foreground order-1"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            Velorah<sup className="text-xs">®</sup>
+            MAGNUS<sup className="text-xs">®</sup>
           </div>
 
           {/* Nav Links */}
@@ -45,23 +45,23 @@ function App() {
         </nav>
 
         {/* Hero Section */}
-        <main className="flex-1 flex flex-col items-center justify-center text-center px-6 pt-32 pb-40">
-          <h1 
+        <main className="flex-1 flex flex-col items-center justify-center text-center px-6">
+          <h1
             className="animate-fade-rise text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            Where <em className="not-italic text-muted-foreground">One-Forty minds</em> compile <em className="not-italic text-muted-foreground">the future.</em>
+            Where <em className="not-italic text-muted-foreground">One-Forty* minds</em> compile <em className="not-italic text-muted-foreground">the future.</em>
           </h1>
-          
+
           <p className="animate-fade-rise-delay text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed">
             We're shaping coders into deep thinkers, bold makers, and relentless problem-solvers. Through the grind, we build a community for sharp skills and unstoppable growth.
           </p>
-          
-          <button className="animate-fade-rise-delay-2 liquid-glass rounded-full px-14 py-5 text-base text-foreground mt-40 hover:scale-[1.03] cursor-pointer transition-transform duration-300">
+
+          <button className="animate-fade-rise-delay-2 liquid-glass rounded-full px-14 py-5 text-base text-foreground mt-16 hover:scale-[1.03] cursor-pointer transition-transform duration-300">
             Begin Journey
           </button>
         </main>
-        
+
       </div>
     </div>
   );
