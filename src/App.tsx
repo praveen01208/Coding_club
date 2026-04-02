@@ -1,9 +1,40 @@
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Removed unused imports
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [showNamePrompt, setShowNamePrompt] = useState(false);
+  const [nameInput, setNameInput] = useState("");
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("magnusUserName");
+    if (storedName) {
+      setUserName(storedName);
+    } else if (storedName === null) {
+      // Only show if it hasn't been set or dismissed (null)
+      const timer = setTimeout(() => {
+        setShowNamePrompt(true);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (nameInput.trim()) {
+      localStorage.setItem("magnusUserName", nameInput.trim());
+      setUserName(nameInput.trim());
+      setShowNamePrompt(false);
+    }
+  };
+
+  const handleDismissPrompt = () => {
+    localStorage.setItem("magnusUserName", ""); // Mark as seen
+    setShowNamePrompt(false);
+  };
+
   return (
     <div className="relative min-h-screen bg-background overflow-hidden selection:bg-foreground selection:text-background">
       {/* Video Background */}
@@ -19,6 +50,44 @@ function App() {
 
       {/* Main Content Wrapper */}
       <div className="relative z-10 flex flex-col min-h-screen">
+
+        {/* Name Prompt Modal */}
+        {showNamePrompt && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md transition-opacity duration-500">
+            <div className="liquid-glass rounded-3xl p-8 max-w-sm w-full shadow-2xl flex flex-col gap-6 animate-fade-rise relative overflow-hidden border border-white/10">
+               <button 
+                 type="button"
+                 onClick={handleDismissPrompt}
+                 className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors p-1.5 rounded-full hover:bg-white/10 cursor-pointer"
+               >
+                 <X size={18} />
+               </button>
+               
+               <h2 className="text-3xl text-foreground font-normal tracking-tight" style={{ fontFamily: "'Instrument Serif', serif" }}>
+                 What should we call you?
+               </h2>
+               
+               <form onSubmit={handleNameSubmit} className="flex flex-col gap-5">
+                 <input 
+                   type="text" 
+                   value={nameInput}
+                   onChange={(e) => setNameInput(e.target.value)}
+                   placeholder="Enter your name..."
+                   className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all font-medium tracking-wide"
+                   autoFocus
+                   maxLength={20}
+                 />
+                 <button 
+                   type="submit"
+                   disabled={!nameInput.trim()}
+                   className="liquid-glass rounded-xl py-3 md:py-2.5 text-sm font-medium text-foreground transition-all hover:bg-white/10 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed cursor-pointer border border-white/5"
+                 >
+                   Continue
+                 </button>
+               </form>
+            </div>
+          </div>
+        )}
 
         {/* Navigation Bar */}
         <nav className="relative flex items-start md:items-center justify-between px-6 sm:px-8 py-6 max-w-7xl w-full mx-auto gap-y-4">
@@ -44,7 +113,7 @@ function App() {
           {/* CTA & Mobile Menu */}
           <div className="flex flex-col items-end gap-3 order-2 md:order-3">
             <button className="hidden md:block liquid-glass rounded-full px-5 sm:px-6 py-2 sm:py-2.5 text-sm text-foreground hover:scale-[1.03] transition-transform duration-300 cursor-pointer">
-              Begin Journey
+              {userName ? `Hii !, ${userName}` : "Begin Journey"}
             </button>
             {/* Mobile Menu Button  */}
             <button 
@@ -71,7 +140,7 @@ function App() {
               
               <div className="w-full pt-3 pb-1 mt-1 border-t border-white/5 flex justify-center">
                 <button onClick={() => setIsMobileMenuOpen(false)} className="relative liquid-glass rounded-full py-2.5 text-center text-sm text-foreground active:scale-95 transition-transform w-[95%] cursor-pointer">
-                  Begin Journey
+                  {userName ? `Hii !, ${userName}` : "Begin Journey"}
                 </button>
               </div>
             </div>
@@ -92,7 +161,7 @@ function App() {
           </p>
 
           <button className="animate-fade-rise-delay-2 liquid-glass rounded-full px-14 py-5 text-base text-foreground mt-16 hover:scale-[1.03] cursor-pointer transition-transform duration-300">
-            Begin Journey
+            {userName ? `Hii !, ${userName}` : "Begin Journey"}
           </button>
         </main>
 
