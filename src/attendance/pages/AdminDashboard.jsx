@@ -225,7 +225,7 @@ export default function AdminDashboard({ user, onLogout }) {
                       <td style={{ color: 'var(--muted)' }}>{i + 1}</td>
                       <td style={{ fontWeight: 500 }}>{r.studentName}</td>
                       <td><span className="badge badge-group">Group {r.group}</span></td>
-                      <td style={{ fontFamily: 'DM Mono', fontSize: 12 }}>{new Date(r.markedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
+                      <td style={{ fontFamily: 'var(--font-display)', fontSize: 12 }}>{new Date(r.markedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
                       <td><span className="badge badge-present">Present</span></td>
                     </tr>
                   ))}
@@ -256,7 +256,7 @@ export default function AdminDashboard({ user, onLogout }) {
                         <div className="progress-wrap" style={{ flex: 1, minWidth: 60 }}>
                           <div className="progress-fill" style={{ width: `${g.percentage}%` }} />
                         </div>
-                        <span style={{ fontSize: 12, fontFamily: 'DM Mono', minWidth: 34 }}>{g.percentage}%</span>
+                        <span style={{ fontSize: 12, fontFamily: 'var(--font-display)', minWidth: 34 }}>{g.percentage}%</span>
                       </div>
                     </td>
                   </tr>
@@ -315,11 +315,11 @@ export default function AdminDashboard({ user, onLogout }) {
                   : students.map(s => (
                     <tr key={s._id}>
                       <td style={{ fontWeight: 500 }}>{s.name}</td>
-                      <td style={{ fontFamily: 'DM Mono', fontSize: 12, color: 'var(--muted)' }}>{s.username}</td>
+                      <td style={{ fontFamily: 'var(--font-display)', fontSize: 12, color: 'var(--muted)' }}>{s.username}</td>
                       <td><span className="badge badge-group">Group {s.group}</span></td>
                       <td>
                         <button onClick={() => removeStudent(s._id, s.name)}
-                          style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: 12, fontFamily: 'DM Sans' }}>
+                          style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: 12, fontFamily: 'var(--font-display)' }}>
                           Remove
                         </button>
                       </td>

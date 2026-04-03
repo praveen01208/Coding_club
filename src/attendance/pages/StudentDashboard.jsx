@@ -105,7 +105,7 @@ export default function StudentDashboard({ user, onLogout }) {
                     {history.map((r, i) => (
                       <tr key={i}>
                         <td>{r.sessionDate}</td>
-                        <td style={{ fontFamily: 'DM Mono', fontSize: 12 }}>{new Date(r.markedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
+                        <td style={{ fontFamily: 'var(--font-display)', fontSize: 12 }}>{new Date(r.markedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
                         <td><span className="badge badge-present">Present</span></td>
                       </tr>
                     ))}
@@ -169,7 +169,7 @@ export default function StudentDashboard({ user, onLogout }) {
         <div className="animate">
           <div className="card" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
             <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
-            <div style={{ fontFamily: 'Syne', fontSize: '1.5rem', fontWeight: 800, marginBottom: 8, color: 'var(--accent2)' }}>Attendance Marked!</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800, marginBottom: 8, color: 'var(--accent2)' }}>Attendance Marked!</div>
             <div style={{ color: 'var(--muted)', fontSize: 14, marginBottom: '1.5rem' }}>Your presence has been recorded for today's session.</div>
             <div className="info-row" style={{ textAlign: 'left' }}>
               <div className="info-grid">
