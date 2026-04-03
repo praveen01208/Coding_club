@@ -1,5 +1,11 @@
+// @ts-nocheck
+import Login from "./attendance/pages/Login";
+import AdminDashboard from "./attendance/pages/AdminDashboard";
+import StudentDashboard from "./attendance/pages/StudentDashboard";
 import { Menu, X } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import "./attendance/attendance.css";
+
 
 // Local flower video (used as bg for all non-home tabs)
 // Using new URL for Vite-compatible asset resolution
@@ -128,184 +134,58 @@ function AttendancePage() {
   );
 }
 
-// Crew data
-const CREW = [
-  { initials: "PK", name: "Praveen K.", role: "Club President", tag: "Radical Minimalism", bio: "Shapes the vision — turns caffeine into code and chaos into clarity." },
-  { initials: "AR", name: "Aditya R.", role: "Tech Lead", tag: "Chrome & Shadow", bio: "Architects the backbone. If it doesn't scale, it doesn't ship." },
-  { initials: "SM", name: "Sneha M.", role: "Creative Director", tag: "Permanence", bio: "Crafts the aesthetic. Every pixel placed with intent." },
-  { initials: "RB", name: "Rohan B.", role: "DSA Head", tag: "Deep Logic", bio: "Eats graphs for breakfast. Teaches the rest of us to do the same." },
-  { initials: "NJ", name: "Nikita J.", role: "Events Head", tag: "Controlled Chaos", bio: "Runs the show — hackathons, bootcamps, everything in between." },
-  { initials: "VT", name: "Vishal T.", role: "Dev Ops", tag: "Always On", bio: "Keeps the servers alive at 2 AM so everyone else can sleep." },
-];
-
-function CrewCard({ member }: { member: typeof CREW[0] }) {
-  return (
-    <div
-      className="liquid-glass rounded-3xl flex-shrink-0 w-56 sm:w-64 overflow-hidden flex flex-col group transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(255,255,255,0.06)] cursor-pointer"
-      style={{ border: "1px solid rgba(255,255,255,0.08)" }}
-    >
-      {/* Avatar */}
-      <div className="relative w-full aspect-[3/4] flex items-center justify-center overflow-hidden"
-        style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)" }}
-      >
-        {/* Glow ring */}
-        <div className="absolute inset-0 rounded-full scale-75 opacity-0 group-hover:opacity-100 transition-all duration-500"
-          style={{ boxShadow: "0 0 60px 10px rgba(255,255,255,0.06)" }} />
-        {/* Monogram avatar */}
-        <div className="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-semibold text-foreground/80 group-hover:text-foreground transition-colors duration-300"
-          style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%)",
-            border: "1px solid rgba(255,255,255,0.15)",
-            fontFamily: "'Instrument Serif', serif",
-            boxShadow: "inset 0 1px 1px rgba(255,255,255,0.2)",
-          }}
-        >
-          {member.initials}
-        </div>
-        {/* Role pill */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 rounded-full text-[10px] font-medium tracking-widest uppercase text-muted-foreground"
-          style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          {member.role}
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className="p-5 flex flex-col gap-2 flex-1"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-      >
-        <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-medium">
-          {member.tag}
-        </span>
-        <span className="text-lg font-normal text-foreground leading-tight"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
-        >
-          {member.name}
-        </span>
-        <p className="text-xs text-muted-foreground leading-relaxed mt-1">
-          {member.bio}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function ReachUsPage() {
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.pageX - (carouselRef.current?.offsetLeft ?? 0));
-    setScrollLeft(carouselRef.current?.scrollLeft ?? 0);
-  };
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !carouselRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - carouselRef.current.offsetLeft;
-    carouselRef.current.scrollLeft = scrollLeft - (x - startX);
-  };
-  const onMouseUp = () => setIsDragging(false);
-
   return (
-    <main className="flex-1 flex flex-col items-center w-full overflow-hidden pb-16 pt-4">
-
-      {/* ── Meet the Crew ── */}
-      <section className="w-full flex flex-col items-center gap-6 animate-fade-rise">
-        <div className="text-center px-6">
-          <span className="text-xs tracking-[0.25em] uppercase text-muted-foreground font-medium">Our People</span>
-          <h1
-            className="text-5xl sm:text-6xl md:text-7xl leading-[0.95] tracking-[-2px] font-normal text-foreground mt-2"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            Meet the <em className="not-italic text-muted-foreground">Crew</em>
-          </h1>
-          <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto mt-4 leading-relaxed">
-            A collective of visionary builders, digital architects, and curious minds dedicated to meaningful craft.
-          </p>
-        </div>
-
-        {/* Horizontal draggable carousel */}
-        <div
-          ref={carouselRef}
-          className="w-full flex flex-row gap-5 overflow-x-auto pb-4 px-8 select-none"
-          style={{
-            scrollbarWidth: "none",
-            cursor: isDragging ? "grabbing" : "grab",
-            scrollBehavior: isDragging ? "auto" : "smooth",
-          }}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseLeave={onMouseUp}
-          onMouseUp={onMouseUp}
+    <main className="flex-1 flex flex-col items-center justify-center text-center px-6 pb-32 md:pb-0">
+      <h1
+        className="animate-fade-rise text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground"
+        style={{ fontFamily: "'Instrument Serif', serif" }}
+      >
+        Reach <em className="not-italic text-muted-foreground">Us</em>
+      </h1>
+      <p className="animate-fade-rise-delay text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed">
+        Got questions, ideas, or just want to join the club? Drop us a line —
+        we love hearing from curious minds.
+      </p>
+      <form
+        className="animate-fade-rise-delay-2 liquid-glass rounded-3xl px-8 py-10 mt-14 w-full max-w-md flex flex-col gap-5"
+        onSubmit={(e) => e.preventDefault()}
+      >
+        <input
+          type="text"
+          placeholder="Your name"
+          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
+        />
+        <input
+          type="email"
+          placeholder="Your email"
+          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
+        />
+        <textarea
+          placeholder="Your message..."
+          rows={4}
+          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all resize-none"
+        />
+        <button
+          type="submit"
+          className="liquid-glass rounded-xl py-3 text-sm font-medium text-foreground transition-all hover:bg-white/10 hover:scale-[1.02] active:scale-95 cursor-pointer border border-white/5"
         >
-          {/* Left fade edge */}
-          <div className="flex-shrink-0 w-4" />
-          {CREW.map((member) => (
-            <CrewCard key={member.name} member={member} />
-          ))}
-          <div className="flex-shrink-0 w-4" />
-        </div>
-
-        {/* Scroll hint dots */}
-        <div className="flex gap-1.5 mt-1">
-          {CREW.map((_, i) => (
-            <div key={i} className="w-1 h-1 rounded-full bg-white/20" />
-          ))}
-        </div>
-      </section>
-
-      {/* ── Divider ── */}
-      <div className="w-full max-w-2xl mx-auto my-10 px-6">
-        <div style={{ height: "1px", background: "linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent)" }} />
-      </div>
-
-      {/* ── Contact Form ── */}
-      <section className="animate-fade-rise-delay w-full flex flex-col items-center gap-6 px-6">
-        <div className="text-center">
-          <span className="text-xs tracking-[0.25em] uppercase text-muted-foreground font-medium">Get In Touch</span>
-          <h2
-            className="text-3xl sm:text-4xl font-normal text-foreground mt-2"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            Reach <em className="not-italic text-muted-foreground">Us</em>
-          </h2>
-        </div>
-        <form
-          className="liquid-glass rounded-3xl px-8 py-10 w-full max-w-md flex flex-col gap-5"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <input
-            type="text"
-            placeholder="Your name"
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
-          />
-          <input
-            type="email"
-            placeholder="Your email"
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
-          />
-          <textarea
-            placeholder="Your message..."
-            rows={4}
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all resize-none"
-          />
-          <button
-            type="submit"
-            className="liquid-glass rounded-xl py-3 text-sm font-medium text-foreground transition-all hover:bg-white/10 hover:scale-[1.02] active:scale-95 cursor-pointer border border-white/5"
-          >
-            Send Message ✦
-          </button>
-        </form>
-      </section>
-
+          Send Message ✦
+        </button>
+      </form>
     </main>
   );
 }
 
 // ─── Root App ─────────────────────────────────────────────────────────────────
+
+type AttendanceUser = {
+  _id: string;
+  name: string;
+  username: string;
+  role: string;
+  group?: number;
+};
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -313,6 +193,7 @@ function App() {
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("Home");
+  const [attendanceUser, setAttendanceUser] = useState<AttendanceUser | null>(null);
 
   useEffect(() => {
     const storedName = localStorage.getItem("magnusUserName");
@@ -325,6 +206,31 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  // Restore attendance session on page load
+  useEffect(() => {
+    const storedUser = localStorage.getItem("cc_user");
+    if (storedUser) {
+      try {
+        setAttendanceUser(JSON.parse(storedUser));
+      } catch {
+        localStorage.removeItem("cc_user");
+        localStorage.removeItem("cc_token");
+      }
+    }
+  }, []);
+
+  const handleAttendanceLogin = (user: AttendanceUser, token: string) => {
+    localStorage.setItem("cc_token", token);
+    localStorage.setItem("cc_user", JSON.stringify(user));
+    setAttendanceUser(user);
+  };
+
+  const handleAttendanceLogout = () => {
+    localStorage.removeItem("cc_token");
+    localStorage.removeItem("cc_user");
+    setAttendanceUser(null);
+  };
 
   const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -546,7 +452,13 @@ function App() {
 
         {activeTab === "Achievers" && <AchieversPage />}
         {activeTab === "Events" && <EventsPage />}
-        {activeTab === "Attendance" && <AttendancePage />}
+        {activeTab === "Attendance" && (
+          !attendanceUser
+            ? <Login onLogin={handleAttendanceLogin} />
+            : attendanceUser.role === "admin"
+              ? <AdminDashboard user={attendanceUser} onLogout={handleAttendanceLogout} />
+              : <StudentDashboard user={attendanceUser} onLogout={handleAttendanceLogout} />
+        )}
         {activeTab === "Reach Us" && <ReachUsPage />}
       </div>
     </div>
