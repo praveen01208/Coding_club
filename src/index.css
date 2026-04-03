@@ -83,7 +83,5 @@
     filter: grayscale(100%);
     transition: filter 0.55s ease;
   }
-  .reel-card:hover img {
-    filter: grayscale(0%);
-  }
+  /* colour is set by JS applyAngle — no hover rule needed */
 }

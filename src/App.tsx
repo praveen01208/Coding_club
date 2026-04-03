@@ -18,6 +18,8 @@ const FLOWER_VIDEO = new URL(
 const HERO_VIDEO =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4";
 
+const PRAVEEN_IMG = new URL("./assets/crew_praveen.png", import.meta.url).href;
+
 type Tab = "Home" | "Achievers" | "Events" | "Attendance" | "Reach Us";
 
 // ─── Page-specific content ───────────────────────────────────────────────────
@@ -142,7 +144,7 @@ const CREW_MEMBERS = [
   { name: "JENA CLARKE",   role: "LEAD ARCHITECT",           img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB9MiX5omYCwnrGv_UpVoMcUEAvuLhQAyAaVDStFR5zrXmkd-NQ5rBpdx75XkPWUHEeFDM_GusuYqI1ZyB5eoMMUeWo37EVfmJFXOjAMUNdjWzjQdmgygNa12-ch6hVSYK9w74XKtM_65u403R00HVT292kubyvGbRjM4Km4bgQ-vC9fTlJR4QsWSyV8EGIG96WXWijXL4yh_IUzXA4lwgZNQkniFEIlRmf38etI0nbqhkFOPNMklfQkXdPrhXLHqdNaRyWphNooD_T" },
   { name: "DAVID CHEN",    role: "SOUND DESIGNER",           img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJ2FYehKMWZf97FPs_845UuoxkddyPyyWBj094Eah6ZACEqt5oCIjw1UBXvCjl7vZ0CcAyLUPta6N0LokTDIUBetTpO1uqU-vDF-SV1cez4l8jBUO5meoU8yaK3P2mKaFjXfRt0ATmWHihR5Ihf-FBWXBStHXRLYYOGgjN6kqBt71L07aj05xoUXBOVbpyHH9IrePwDX9P9QFkS1AxZ8AbYOlYoe17rfJ1f89c662RK5UqTQjOtcuFq5Jo6hvkj9qSBS6a1jaAlUUr" },
   { name: "ANNA RHEE",     role: "UX STRATEGIST",            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBqDz7ucL6Lr2UiYxe7ejiIY_J8Q3MPYrsUDGMGByZ1RVZuQa8VkZlMqSQXcap0RI5dh-nF5comd-wf6JPpUTt9a1GTanTXFG6xTm9vDXoVEZabtqa7ZL--Fp-D9psHRj0z711uZ6fg6XQgCEyc7RF1fny0N2P1Hp8eYbZwdF5xaYSBJXXDAQ-c-D09JKb1K3qZraqvKfuJ2VigP_EviQkYRLOEiYLT9vhOeUuZPCM72nf1cY8N08WWWl0kRziq-8tO5DKvM5DK3pSG" },
-  { name: "KAI VOSS",      role: "LIGHTING ARTIST",          img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCYXwE1YD5THKiP8xtWDqV0vJo2XExBB_DIjHER-I3xhFrACzyNKyANrwVBBr5d8Shmysn3clocgySr99Zsz742uUl2seMCKHUAC1n3fhQ_EfLxytdZczXIZ3OLsPhL94YtKJ-VLvgpFw_HLJGs9zJ8r_oYP7HNqJ-G_whCKxF3DnVasjJvS6Cvf3_jdXYx6d8bJJzSN8qR10qud2sDzWaXcv_a6P0nF8FGVJaWkL6MEo8c4oB5Y7K4t6UZMfGi4yvpUs_0JTlYpcaw" },
+  { name: "PRAVEEN PATIL", role: "CLUB LEAD", phone: "8792946635", email: "praveenmpatil2004@gmail.com", img: PRAVEEN_IMG, darkBg: true },
 ];
 
 function ReachUsPage() {
@@ -176,6 +178,9 @@ function ReachUsPage() {
       el.style.transform = `rotateY(${a}deg) translateZ(${RADIUS}px) scale(${scale})`;
       el.style.opacity = String(opacity);
       el.style.zIndex = isFront ? "20" : "1";
+      // Auto colour: center card shows real colour, others stay B&W
+      const img = el.querySelector("img");
+      if (img) img.style.filter = isFront ? "grayscale(0%)" : "grayscale(100%)";
     });
   }
 
@@ -248,78 +253,121 @@ function ReachUsPage() {
   }, []);
 
   return (
-    <main className="flex-1 flex flex-col w-full justify-center items-center overflow-hidden select-none">
+    <main className="flex-1 flex flex-col w-full overflow-hidden select-none">
 
-      {/* 3-D Circular Coverflow */}
-      <div
-        ref={perspRef}
-        style={{
-          perspective: "1100px",
-          perspectiveOrigin: "50% 50%",
-          width: "100%",
-          height: "380px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "grab",
-        }}
-      >
+      {/* Title — left on mobile, centered on desktop */}
+      <div className="animate-fade-rise text-left md:text-center pt-3 md:pt-0 px-5 md:px-4 md:mt-auto">
+        <h1
+          className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-normal text-foreground leading-[0.95] tracking-[-2px]"
+          style={{ fontFamily: "'Instrument Serif', serif" }}
+        >
+          Meet<br />
+          <em className="not-italic text-muted-foreground">the Club Crew!</em>
+        </h1>
+      </div>
+
+      {/* 3-D Circular Coverflow — always centered in remaining space */}
+      <div className="flex-1 flex items-center justify-center w-full md:mb-auto">
         <div
-          ref={stageRef}
+          ref={perspRef}
           style={{
-            position: "relative",
-            width: "160px",
-            height: "270px",
-            transformStyle: "preserve-3d",
+            perspective: "1100px",
+            perspectiveOrigin: "50% 50%",
+            width: "100%",
+            height: "380px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "grab",
           }}
         >
-          {CREW_MEMBERS.map((m, i) => (
-            <div
-              key={i}
-              className="reel-card absolute inset-0"
-              style={{
-                willChange: "transform",
-              }}
-            >
+          <div
+            ref={stageRef}
+            style={{
+              position: "relative",
+              width: "160px",
+              height: "270px",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {CREW_MEMBERS.map((m, i) => (
               <div
-                className="liquid-glass rounded-2xl overflow-hidden h-full"
+                key={i}
+                className="reel-card absolute inset-0"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.10)",
-                  boxShadow: "0 30px 70px -12px rgba(0,0,0,0.55)",
+                  willChange: "transform",
                 }}
               >
-                <img
-                  src={m.img}
-                  alt={m.name}
-                  draggable={false}
-                  style={{
-                    width: "100%",
-                    height: "74%",
-                    objectFit: "cover",
-                    display: "block",
-                    pointerEvents: "none",
-                  }}
-                />
                 <div
-                  className="px-5 py-4"
-                  style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+                  className="liquid-glass rounded-2xl overflow-hidden h-full"
+                  style={{
+                    border: "1px solid rgba(255,255,255,0.10)",
+                    boxShadow: "0 30px 70px -12px rgba(0,0,0,0.55)",
+                  }}
                 >
-                  <span
-                    className="block text-sm font-extrabold tracking-tight text-foreground uppercase leading-tight"
-                    style={{ fontFamily: "'Instrument Serif', serif" }}
+                  <img
+                    src={m.img}
+                    alt={m.name}
+                    draggable={false}
+                    style={{
+                      width: "100%",
+                      height: "74%",
+                      objectFit: "cover",
+                      display: "block",
+                      pointerEvents: "none",
+                      background: m.darkBg ? "rgba(0,0,0,0.82)" : "transparent",
+                    }}
+                  />
+                  <div
+                    className="px-5 py-4"
+                    style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
                   >
-                    {m.name}
-                  </span>
-                  <span className="block text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground mt-1 font-semibold">
-                    {m.role}
-                  </span>
+                    <span
+                      className="block text-sm font-extrabold tracking-tight text-foreground uppercase leading-tight"
+                      style={{ fontFamily: "'Instrument Serif', serif" }}
+                    >
+                      {m.name}
+                    </span>
+                    {m.phone && m.email ? (
+                      <>
+                        <a
+                          href={`tel:${m.phone}`}
+                          className="block text-[0.6rem] text-muted-foreground mt-1 hover:text-white transition-colors"
+                          style={{ letterSpacing: "0.05em" }}
+                        >
+                          {m.phone}
+                        </a>
+                        <a
+                          href={`mailto:${m.email}`}
+                          className="block text-[0.55rem] text-muted-foreground hover:text-white transition-colors truncate"
+                          style={{ letterSpacing: "0.03em" }}
+                        >
+                          {m.email}
+                        </a>
+                      </>
+                    ) : (
+                      <span className="block text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground mt-1 font-semibold">
+                        {m.role}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
+      {/* Contact Us button */}
+      <div className="flex justify-center pb-8 md:mb-auto">
+        <button
+          className="liquid-glass rounded-2xl px-8 py-3 text-sm font-semibold text-foreground tracking-widest uppercase border border-white/10 hover:bg-white/10 hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer"
+          style={{ letterSpacing: "0.15em" }}
+          onClick={() => window.location.href = "mailto:club@example.com"}
+        >
+          Contact Us ✦
+        </button>
+      </div>
 
     </main>
   );
