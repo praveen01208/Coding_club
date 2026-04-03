@@ -55,36 +55,36 @@ function App() {
         {showNamePrompt && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md transition-opacity duration-500">
             <div className="liquid-glass rounded-3xl p-8 max-w-sm w-full shadow-2xl flex flex-col gap-6 animate-fade-rise relative overflow-hidden border border-white/10">
-               <button 
-                 type="button"
-                 onClick={handleDismissPrompt}
-                 className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors p-1.5 rounded-full hover:bg-white/10 cursor-pointer"
-               >
-                 <X size={18} />
-               </button>
-               
-               <h2 className="text-3xl text-foreground font-normal tracking-tight" style={{ fontFamily: "'Instrument Serif', serif" }}>
-                 What should we call you?
-               </h2>
-               
-               <form onSubmit={handleNameSubmit} className="flex flex-col gap-5">
-                 <input 
-                   type="text" 
-                   value={nameInput}
-                   onChange={(e) => setNameInput(e.target.value)}
-                   placeholder="Enter your name..."
-                   className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all font-medium tracking-wide"
-                   autoFocus
-                   maxLength={20}
-                 />
-                 <button 
-                   type="submit"
-                   disabled={!nameInput.trim()}
-                   className="liquid-glass rounded-xl py-3 md:py-2.5 text-sm font-medium text-foreground transition-all hover:bg-white/10 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed cursor-pointer border border-white/5"
-                 >
-                   Continue
-                 </button>
-               </form>
+              <button
+                type="button"
+                onClick={handleDismissPrompt}
+                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors p-1.5 rounded-full hover:bg-white/10 cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+
+              <h2 className="text-3xl text-foreground font-normal tracking-tight" style={{ fontFamily: "'Instrument Serif', serif" }}>
+                Hey!Coder,your name?
+              </h2>
+
+              <form onSubmit={handleNameSubmit} className="flex flex-col gap-5">
+                <input
+                  type="text"
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  placeholder="Enter your name..."
+                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all font-medium tracking-wide"
+                  autoFocus
+                  maxLength={20}
+                />
+                <button
+                  type="submit"
+                  disabled={!nameInput.trim()}
+                  className="liquid-glass rounded-xl py-3 md:py-2.5 text-sm font-medium text-foreground transition-all hover:bg-white/10 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed cursor-pointer border border-white/5"
+                >
+                  Continue
+                </button>
+              </form>
             </div>
           </div>
         )}
@@ -116,7 +116,7 @@ function App() {
               {userName ? `Hii !, ${userName}` : "Begin Journey"}
             </button>
             {/* Mobile Menu Button  */}
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden liquid-glass rounded-full p-2 text-foreground cursor-pointer flex items-center justify-center transition-transform hover:scale-[1.03] hover:bg-white/5 active:scale-95"
             >
@@ -131,13 +131,13 @@ function App() {
             <div className="liquid-glass rounded-2xl p-3 flex flex-col gap-1 border border-white/10 shadow-2xl overflow-hidden">
               {/* Deep Translucent Backdrop for readability */}
               <div className="absolute inset-0 bg-background/90 backdrop-blur-2xl pointer-events-none -z-10"></div>
-              
+
               <a href="#" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }} className="relative block w-full px-4 py-2 rounded-full text-center text-sm text-foreground transition-all duration-300 hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:text-white cursor-pointer active:scale-95">Home</a>
               <a href="#" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }} className="relative block w-full px-4 py-2 rounded-full text-center text-sm text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:text-white cursor-pointer active:scale-95">Achievers</a>
               <a href="#" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }} className="relative block w-full px-4 py-2 rounded-full text-center text-sm text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:text-white cursor-pointer active:scale-95">Events</a>
               <a href="#" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }} className="relative block w-full px-4 py-2 rounded-full text-center text-sm text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:text-white cursor-pointer active:scale-95">Attendance</a>
               <a href="#" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }} className="relative block w-full px-4 py-2 rounded-full text-center text-sm text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/5 hover:shadow-[0_0_10px_rgba(255,255,255,0.05),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:text-white cursor-pointer active:scale-95">Reach Us</a>
-              
+
               <div className="w-full pt-3 pb-1 mt-1 border-t border-white/5 flex justify-center">
                 <button onClick={() => setIsMobileMenuOpen(false)} className="relative liquid-glass rounded-full py-2.5 text-center text-sm text-foreground active:scale-95 transition-transform w-[95%] cursor-pointer">
                   {userName ? `Hii !, ${userName}` : "Begin Journey"}
