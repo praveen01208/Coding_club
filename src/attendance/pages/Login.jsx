@@ -25,7 +25,7 @@ export default function Login({ onLogin }) {
 
   return (
     <div className="wrap animate" style={{ maxWidth: 440, margin: '0 auto', paddingTop: '3rem' }}>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', fontWeight: 400, marginBottom: 6 }}>Welcome back 👋</h1>
+
       <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: '1.75rem' }}>Sign in to mark or manage attendance</p>
 
       <div className="tabs" style={{ marginBottom: '1.25rem' }}>
