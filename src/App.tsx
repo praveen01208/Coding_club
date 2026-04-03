@@ -3,7 +3,7 @@ import Login from "./attendance/pages/Login";
 import AdminDashboard from "./attendance/pages/AdminDashboard";
 import StudentDashboard from "./attendance/pages/StudentDashboard";
 import { Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./attendance/attendance.css";
 
 
@@ -134,50 +134,199 @@ function AttendancePage() {
   );
 }
 
+// ─── Crew data (from code.html) ───────────────────────────────────────────────
+const CREW_MEMBERS = [
+  { name: "ELIAS VANCE",   role: "DIRECTOR OF PHOTOGRAPHY", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBqDz7ucL6Lr2UiYxe7ejiIY_J8Q3MPYrsUDGMGByZ1RVZuQa8VkZlMqSQXcap0RI5dh-nF5comd-wf6JPpUTt9a1GTanTXFG6xTm9vDXoVEZabtqa7ZL--Fp-D9psHRj0z711uZ6fg6XQgCEyc7RF1fny0N2P1Hp8eYbZwdF5xaYSBJXXDAQ-c-D09JKb1K3qZraqvKfuJ2VigP_EviQkYRLOEiYLT9vhOeUuZPCM72nf1cY8N08WWWl0kRziq-8tO5DKvM5DK3pSG" },
+  { name: "SARA LUND",     role: "CREATIVE DIRECTOR",        img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCYXwE1YD5THKiP8xtWDqV0vJo2XExBB_DIjHER-I3xhFrACzyNKyANrwVBBr5d8Shmysn3clocgySr99Zsz742uUl2seMCKHUAC1n3fhQ_EfLxytdZczXIZ3OLsPhL94YtKJ-VLvgpFw_HLJGs9zJ8r_oYP7HNqJ-G_whCKxF3DnVasjJvS6Cvf3_jdXYx6d8bJJzSN8qR10qud2sDzWaXcv_a6P0nF8FGVJaWkL6MEo8c4oB5Y7K4t6UZMfGi4yvpUs_0JTlYpcaw" },
+  { name: "MARCUS THORNE", role: "EXECUTIVE PRODUCER",       img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdyaSneT8B-gHTkgSAFP7qKtsSBOIooQKo6fZBG6T-Me5OLWVgPieZG0puJ1iKXB5J25IjRezbWNhWDlMZOoKxCVRc3v6mBI_tL9jzORYI66vMqESXOOY3LN8qh_h_72skAp_Eq8CXp-mbrRTZCkJ49F93SAJDBxex9jgiJHeuZx56ajOFKJF4y_m2xM0Uze_Iqj3bd4RJtXjrCvFPqu3KPmvqfJdxU_HJ3jG7sND5FMx-72QX2uNZUK0ZOnkN7pC31qW2-hczSj3c" },
+  { name: "JENA CLARKE",   role: "LEAD ARCHITECT",           img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB9MiX5omYCwnrGv_UpVoMcUEAvuLhQAyAaVDStFR5zrXmkd-NQ5rBpdx75XkPWUHEeFDM_GusuYqI1ZyB5eoMMUeWo37EVfmJFXOjAMUNdjWzjQdmgygNa12-ch6hVSYK9w74XKtM_65u403R00HVT292kubyvGbRjM4Km4bgQ-vC9fTlJR4QsWSyV8EGIG96WXWijXL4yh_IUzXA4lwgZNQkniFEIlRmf38etI0nbqhkFOPNMklfQkXdPrhXLHqdNaRyWphNooD_T" },
+  { name: "DAVID CHEN",    role: "SOUND DESIGNER",           img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJ2FYehKMWZf97FPs_845UuoxkddyPyyWBj094Eah6ZACEqt5oCIjw1UBXvCjl7vZ0CcAyLUPta6N0LokTDIUBetTpO1uqU-vDF-SV1cez4l8jBUO5meoU8yaK3P2mKaFjXfRt0ATmWHihR5Ihf-FBWXBStHXRLYYOGgjN6kqBt71L07aj05xoUXBOVbpyHH9IrePwDX9P9QFkS1AxZ8AbYOlYoe17rfJ1f89c662RK5UqTQjOtcuFq5Jo6hvkj9qSBS6a1jaAlUUr" },
+  { name: "ANNA RHEE",     role: "UX STRATEGIST",            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBqDz7ucL6Lr2UiYxe7ejiIY_J8Q3MPYrsUDGMGByZ1RVZuQa8VkZlMqSQXcap0RI5dh-nF5comd-wf6JPpUTt9a1GTanTXFG6xTm9vDXoVEZabtqa7ZL--Fp-D9psHRj0z711uZ6fg6XQgCEyc7RF1fny0N2P1Hp8eYbZwdF5xaYSBJXXDAQ-c-D09JKb1K3qZraqvKfuJ2VigP_EviQkYRLOEiYLT9vhOeUuZPCM72nf1cY8N08WWWl0kRziq-8tO5DKvM5DK3pSG" },
+  { name: "KAI VOSS",      role: "LIGHTING ARTIST",          img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCYXwE1YD5THKiP8xtWDqV0vJo2XExBB_DIjHER-I3xhFrACzyNKyANrwVBBr5d8Shmysn3clocgySr99Zsz742uUl2seMCKHUAC1n3fhQ_EfLxytdZczXIZ3OLsPhL94YtKJ-VLvgpFw_HLJGs9zJ8r_oYP7HNqJ-G_whCKxF3DnVasjJvS6Cvf3_jdXYx6d8bJJzSN8qR10qud2sDzWaXcv_a6P0nF8FGVJaWkL6MEo8c4oB5Y7K4t6UZMfGi4yvpUs_0JTlYpcaw" },
+];
+
 function ReachUsPage() {
+  const perspRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const angleRef = useRef(0);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const startAngle = useRef(0);
+  const velRef = useRef(0);
+  const lastXRef = useRef(0);
+  const rafRef = useRef(0);
+
+  const N = CREW_MEMBERS.length;
+  const STEP = 360 / N;   // degrees between each card
+  const RADIUS = 240;     // px — circle radius
+
+  function applyAngle(angle: number) {
+    if (!stageRef.current) return;
+    const cards = Array.from(
+      stageRef.current.querySelectorAll<HTMLElement>(".reel-card")
+    );
+    cards.forEach((el, i) => {
+      const a = i * STEP - angle;                           // card's angle in the circle
+      const norm = ((a % 360) + 360) % 360;                // normalize 0-360
+      const dist = Math.min(norm, 360 - norm);             // distance from front (0°)
+      const isFront = dist < STEP * 0.55;
+      const scale = isFront ? 1.18 : 0.75;
+      // Show 5 cards: smooth fade, zero past ~118°
+      const opacity = dist < 118 ? Math.pow(1 - dist / 118, 0.55) : 0;
+      el.style.transform = `rotateY(${a}deg) translateZ(${RADIUS}px) scale(${scale})`;
+      el.style.opacity = String(opacity);
+      el.style.zIndex = isFront ? "20" : "1";
+    });
+  }
+
+  function snapToNearest() {
+    const target = Math.round(angleRef.current / STEP) * STEP;
+    const diff = target - angleRef.current;
+    if (Math.abs(diff) < 0.12) {
+      angleRef.current = target;
+      applyAngle(target);
+      return;
+    }
+    angleRef.current += diff * 0.17;
+    applyAngle(angleRef.current);
+    rafRef.current = requestAnimationFrame(snapToNearest);
+  }
+
+  function momentum() {
+    if (Math.abs(velRef.current) > 0.2) {
+      angleRef.current -= velRef.current * 2.2;
+      velRef.current *= 0.87;
+      applyAngle(angleRef.current);
+      rafRef.current = requestAnimationFrame(momentum);
+    } else {
+      velRef.current = 0;
+      snapToNearest();
+    }
+  }
+
+  useEffect(() => {
+    applyAngle(0);
+    const el = perspRef.current;
+    if (!el) return;
+
+    const down = (e: PointerEvent) => {
+      cancelAnimationFrame(rafRef.current);
+      isDragging.current = true;
+      startX.current = e.clientX;
+      lastXRef.current = e.clientX;
+      startAngle.current = angleRef.current;
+      velRef.current = 0;
+      el.setPointerCapture(e.pointerId);
+      el.style.cursor = "grabbing";
+    };
+    const move = (e: PointerEvent) => {
+      if (!isDragging.current) return;
+      velRef.current = (e.clientX - lastXRef.current) * 0.22;
+      lastXRef.current = e.clientX;
+      angleRef.current = startAngle.current - (e.clientX - startX.current) * 0.42;
+      applyAngle(angleRef.current);
+    };
+    const up = (e: PointerEvent) => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      el.releasePointerCapture(e.pointerId);
+      el.style.cursor = "grab";
+      momentum();
+    };
+
+    el.addEventListener("pointerdown", down);
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerup", up);
+    el.addEventListener("pointercancel", up);
+    return () => {
+      el.removeEventListener("pointerdown", down);
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerup", up);
+      el.removeEventListener("pointercancel", up);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   return (
-    <main className="flex-1 flex flex-col items-center justify-center text-center px-6 pb-32 md:pb-0">
-      <h1
-        className="animate-fade-rise text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground"
-        style={{ fontFamily: "'Instrument Serif', serif" }}
+    <main className="flex-1 flex flex-col w-full justify-center items-center overflow-hidden select-none">
+
+      {/* 3-D Circular Coverflow */}
+      <div
+        ref={perspRef}
+        style={{
+          perspective: "1100px",
+          perspectiveOrigin: "50% 50%",
+          width: "100%",
+          height: "380px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "grab",
+        }}
       >
-        Reach <em className="not-italic text-muted-foreground">Us</em>
-      </h1>
-      <p className="animate-fade-rise-delay text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed">
-        Got questions, ideas, or just want to join the club? Drop us a line —
-        we love hearing from curious minds.
-      </p>
-      <form
-        className="animate-fade-rise-delay-2 liquid-glass rounded-3xl px-8 py-10 mt-14 w-full max-w-md flex flex-col gap-5"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <input
-          type="text"
-          placeholder="Your name"
-          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
-        />
-        <input
-          type="email"
-          placeholder="Your email"
-          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
-        />
-        <textarea
-          placeholder="Your message..."
-          rows={4}
-          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all resize-none"
-        />
-        <button
-          type="submit"
-          className="liquid-glass rounded-xl py-3 text-sm font-medium text-foreground transition-all hover:bg-white/10 hover:scale-[1.02] active:scale-95 cursor-pointer border border-white/5"
+        <div
+          ref={stageRef}
+          style={{
+            position: "relative",
+            width: "160px",
+            height: "270px",
+            transformStyle: "preserve-3d",
+          }}
         >
-          Send Message ✦
-        </button>
-      </form>
+          {CREW_MEMBERS.map((m, i) => (
+            <div
+              key={i}
+              className="reel-card absolute inset-0"
+              style={{
+                willChange: "transform",
+              }}
+            >
+              <div
+                className="liquid-glass rounded-2xl overflow-hidden h-full"
+                style={{
+                  border: "1px solid rgba(255,255,255,0.10)",
+                  boxShadow: "0 30px 70px -12px rgba(0,0,0,0.55)",
+                }}
+              >
+                <img
+                  src={m.img}
+                  alt={m.name}
+                  draggable={false}
+                  style={{
+                    width: "100%",
+                    height: "74%",
+                    objectFit: "cover",
+                    display: "block",
+                    pointerEvents: "none",
+                  }}
+                />
+                <div
+                  className="px-5 py-4"
+                  style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+                >
+                  <span
+                    className="block text-sm font-extrabold tracking-tight text-foreground uppercase leading-tight"
+                    style={{ fontFamily: "'Instrument Serif', serif" }}
+                  >
+                    {m.name}
+                  </span>
+                  <span className="block text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground mt-1 font-semibold">
+                    {m.role}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+
     </main>
   );
 }
 
 // ─── Root App ─────────────────────────────────────────────────────────────────
+
 
 type AttendanceUser = {
   _id: string;

@@ -77,4 +77,13 @@
     mask-composite: exclude;
     pointer-events: none;
   }
+
+  /* ── 3D Circular Carousel (Reach Us) ── */
+  .reel-card img {
+    filter: grayscale(100%);
+    transition: filter 0.55s ease;
+  }
+  .reel-card:hover img {
+    filter: grayscale(0%);
+  }
 }
