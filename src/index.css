@@ -38,6 +38,15 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Hide scrollbars globally */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  * {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 @layer utilities {
@@ -63,8 +72,16 @@
       rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0) 60%,
       rgba(255, 255, 255, 0.15) 80%, rgba(255, 255, 255, 0.45) 100%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
   }
+
+  /* ── 3D Circular Carousel (Reach Us) ── */
+  .reel-card img {
+    filter: grayscale(100%);
+    transition: filter 0.55s ease;
+  }
+  /* colour is set by JS applyAngle — no hover rule needed */
 }
